@@ -1,17 +1,20 @@
-#Employee Management API
+# Employee Management API
 
 A RESTful Employee Management API built using Spring Boot.
 
--> Features
+## Features
 
-- Add Employee
-- Get All Employees
-- Get Employee by ID
-- Update Employee
-- Delete Employee
-- Search Employee by Name
+- ✅ Create Employee
+- ✅ Get All Employees
+- ✅ Get Employee by ID
+- ✅ Update Employee
+- ✅ Delete Employee
+- ✅ Search Employee by Name
+- ✅ Bean Validation
+- ✅ Global Exception Handling for Validation Errors
+- ✅ Custom Employee Not Found Exception
 
--> Tech Stack
+## Tech Stack
 
 - Java
 - Spring Boot
@@ -19,10 +22,28 @@ A RESTful Employee Management API built using Spring Boot.
 - PostgreSQL
 - Docker
 - Maven
+- Jakarta Bean Validation
 
--> Future Improvements
+## API Endpoints
 
-- Validation
-- Global Exception Handling
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/emp` | Get all employees |
+| GET | `/api/v1/emp/{id}` | Get employee by ID |
+| GET | `/api/v1/emp/search/{name}` | Search employees by name |
+| POST | `/api/v1/emp` | Create employee |
+| PUT | `/api/v1/emp/{id}` | Update employee |
+| DELETE | `/api/v1/emp/{id}` | Delete employee |
+
+## Validation Rules
+
+- Employee name cannot be blank.
+- Salary must be a positive number.
+
+## Future Improvements
+
+- ResponseEntity
 - DTOs
-- JWT Authentication
+- Pagination
+- Sorting
+- Spring Security (JWT)

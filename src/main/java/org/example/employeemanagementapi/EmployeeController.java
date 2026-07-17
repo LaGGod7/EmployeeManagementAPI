@@ -1,6 +1,7 @@
 package org.example.employeemanagementapi;
 
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +15,11 @@ public class EmployeeController {
     }
     @GetMapping
     public List<Employee> getEmployees(){
-        return employeeService.getal();
+        return employeeService.getAllEmployees();
     }
     @GetMapping("{id}")
-    public Employee getEmployeebyId(@PathVariable Integer id){
-        return employeeService.getbyId(id);
+    public Employee getEmployebyId(@Valid @PathVariable Integer id){
+        return employeeService.getEmployeeById(id);
     }
 
 
@@ -28,7 +29,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public void addEmployee(@RequestBody Employee employee){
+    public void addEmployee(@Valid @RequestBody  Employee employee){
         employeeService.addEmp(employee);
     }
 

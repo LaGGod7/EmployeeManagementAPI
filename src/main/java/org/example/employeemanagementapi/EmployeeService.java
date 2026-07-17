@@ -12,12 +12,14 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getal() {
+    public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Employee getbyId(Integer id) {
-        return employeeRepository.findById(id).orElseThrow(()->new IllegalStateException(id+"Not found"));
+
+    public Employee getEmployeeById(Integer id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
     }
 
 

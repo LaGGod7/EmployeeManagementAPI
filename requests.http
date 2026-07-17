@@ -1,5 +1,5 @@
-### GET request to example server
-GET http://localhost:8081
+#### GET request to example server
+#GET http://localhost:8081
 
 ###
 
@@ -11,8 +11,8 @@ POST http://localhost:8081/api/v1/emp
 Content-Type: application/json
 
 {
-  "name": "shiva",
-  "salary": "20000"
+  "name": "",
+  "salary": "687"
 }
 
 ###
@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 ###
-GET  http://localhost:8081/api/v1/emp/search/shiva
+GET  http://localhost:8081/api/v1/emp/search/sad

@@ -2,6 +2,8 @@ package org.example.employeemanagementapi;
 
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,36 +15,45 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+
     @GetMapping
-    public List<Employee> getEmployees(){
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<Employee>>  getEmployees(){
+        List<Employee> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
+
+
     @GetMapping("{id}")
-    public Employee getEmployebyId(@Valid @PathVariable Integer id){
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<Employee> getEmployebyId( @PathVariable Integer id){
+        Employee employee = employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(employee);
     }
 
 
     @GetMapping("/search/{name}")
-    public List<Employee> searchName(@PathVariable String name) {
-        return employeeService.getbyName(name);
+    public ResponseEntity<List<Employee>> searchName(@PathVariable String name) {
+        List<Employee> employees = employeeService.getbyName(name);
+        return ResponseEntity.ok(employees);
     }
 
     @PostMapping
-    public void addEmployee(@Valid @RequestBody  Employee employee){
+    public ResponseEntity<String> addEmployee(@Valid @RequestBody  Employee employee){
         employeeService.addEmp(employee);
+        return new ResponseEntity<>("Employee added successfully", HttpStatus.CREATED);
     }
 
 
     @DeleteMapping("/{id}")
-    public String delEmpbyId(@PathVariable Integer id) {
+    public ResponseEntity<String> delEmpbyId(@PathVariable Integer id) {
         employeeService.delEmpbyId(id);
-        return "Employee deleted successfully";
+        return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Integer id,@RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<Employee> updateEmployee(@Valid @PathVariable Integer id,@RequestBody Employee employee) {
+        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+        return ResponseEntity.ok(updatedEmployee);
     }
 
 

@@ -12,52 +12,51 @@ import java.util.List;
 @RequestMapping("/api/v1/emp")
 public class EmployeeController {
     private final EmployeeService employeeService;
+
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
 
     @GetMapping
-    public ResponseEntity<List<Employee>>  getEmployees(){
-        List<Employee> employees = employeeService.getAllEmployees();
+    public ResponseEntity<List<EmployeeResponse>> getEmployees() {
+        List<EmployeeResponse> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Employee> getEmployebyId( @PathVariable Integer id){
-        Employee employee = employeeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeResponse> getEmployId(@PathVariable Integer id) {
+        EmployeeResponse employee = employeeService.getEmployeeById(id);
         return ResponseEntity.ok(employee);
     }
 
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<Employee>> searchName(@PathVariable String name) {
-        List<Employee> employees = employeeService.getbyName(name);
+    public ResponseEntity<List<EmployeeResponse>> searchName(@PathVariable String name) {
+        List<EmployeeResponse> employees = employeeService.getByName(name);
         return ResponseEntity.ok(employees);
     }
 
     @PostMapping
-    public ResponseEntity<String> addEmployee(@Valid @RequestBody  Employee employee){
-        employeeService.addEmp(employee);
-        return new ResponseEntity<>("Employee added successfully", HttpStatus.CREATED);
+    public ResponseEntity<EmployeeResponse> addEmployee(@Valid @RequestBody EmployeeRequest employee) {
+        EmployeeResponse response = employeeService.addEmp(employee);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delEmpbyId(@PathVariable Integer id) {
-        employeeService.delEmpbyId(id);
+    public ResponseEntity<String> delEmpById(@PathVariable Integer id) {
+        employeeService.delEmployeeById(id);
         return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@Valid @PathVariable Integer id,@RequestBody Employee employee) {
-        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Integer id, @RequestBody EmployeeRequest employee) {
+        EmployeeResponse updatedEmployee = employeeService.updateEmployees(id, employee);
         return ResponseEntity.ok(updatedEmployee);
     }
-
-
-
 
 
 }

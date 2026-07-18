@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import jakarta.validation.constraints.Positive;
 
 @Entity
@@ -18,7 +18,7 @@ public class Employee {
     @NotBlank(message = "name cannot be blank")
     private String name;
 
-    @Positive(message="salary should be a positive no")
+    @Positive(message = "salary should be a positive no")
     private Integer salary;
 
     public Employee() {

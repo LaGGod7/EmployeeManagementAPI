@@ -2,6 +2,7 @@ package org.example.employeemanagementapi;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -12,41 +13,75 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+
+    private EmployeeResponse convertToResponse(Employee employee) {
+        EmployeeResponse response = new EmployeeResponse();
+
+        response.setId(employee.getId());
+        response.setName(employee.getName());
+        response.setSalary(employee.getSalary());
+
+        return response;
+    }
+
+    public List<EmployeeResponse> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        List<EmployeeResponse> responses = new ArrayList<>();
+        for (Employee employee : employees) {
+            responses.add(convertToResponse(employee));
+        }
+        return responses;
     }
 
 
-    public Employee getEmployeeById(Integer id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
+    public EmployeeResponse getEmployeeById(Integer id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
+        return convertToResponse(employee);
     }
 
 
-    public void addEmp(Employee employee) {
-        employeeRepository.save(employee);
+    public EmployeeResponse addEmp(EmployeeRequest request) {
+        Employee employee = new Employee();
+        employee.setName(request.getName());
+        employee.setSalary(request.getSalary());
+
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        return convertToResponse(savedEmployee);
+
     }
 
 
-    public void delEmpbyId(Integer id) {
-        employeeRepository.deleteById(id);
+    public void delEmployeeById(Integer id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new EmployeeNotFoundException(
+                                "Employee with id " + id + " not found"));
+
+        employeeRepository.delete(employee);
     }
 
-    public void UpdateEmp(Employee employee) {
-        employeeRepository.save(employee);
+
+    public EmployeeResponse updateEmployees(Integer id, EmployeeRequest request) {
+
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+        employee.setName(request.getName());
+        employee.setSalary(request.getSalary());
+
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        return convertToResponse(savedEmployee);
     }
 
-    public Employee updateEmployee(Integer id, Employee employee) {
-        Employee e = employeeRepository.findById(id).orElseThrow(()->new RuntimeException("Employee not found"));
-        e.setName(employee.getName());
-        e.setSalary(employee.getSalary());
-        return employeeRepository.save(e);
-    }
-
-    public List<Employee> getbyName(String name) {
+    public List<EmployeeResponse> getByName(String name) {
         if (name == null || name.isBlank()) {
             throw new RuntimeException("Name cannot be empty");
         }
-        return employeeRepository.findByName(name);
+        List<Employee> employees = employeeRepository.findByName(name);
+        List<EmployeeResponse> responses = new ArrayList<>();
+        for (Employee employee : employees) {
+            responses.add(convertToResponse(employee));
+        }
+        return responses;
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -15,15 +15,17 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String,String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
-        Map<String,String> map = new HashMap<>();
+    public Map<String, String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> map = new HashMap<>();
 
-        e.getBindingResult().getAllErrors().forEach(error->{
-           String fieldName = ((FieldError) error).getField();
-           String message= error.getDefaultMessage();
-           map.put(fieldName,message);
-       });return map;
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            map.put(fieldName, message);
+        });
+        return map;
     }
+
     @ExceptionHandler(EmployeeNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEmployeeNotFoundException(EmployeeNotFoundException e) {

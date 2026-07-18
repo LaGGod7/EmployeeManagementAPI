@@ -12,6 +12,7 @@ public class EmployeeManagementApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(EmployeeManagementApiApplication.class, args);
     }
+
     @GetMapping
     public String hello() {
         return "Hello World";

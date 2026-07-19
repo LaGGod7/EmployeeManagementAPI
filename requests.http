@@ -11,7 +11,7 @@ POST http://localhost:8081/api/v1/emp
 Content-Type: application/json
 
 {
-  "name": "gd",
+  "name": "adsd",
   "salary": "687"
 }
 

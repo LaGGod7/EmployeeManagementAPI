@@ -2,6 +2,8 @@ package org.example.employeemanagementapi;
 
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +21,17 @@ public class EmployeeController {
 
 
     @GetMapping
-    public ResponseEntity<List<EmployeeResponse>> getEmployees() {
-        List<EmployeeResponse> employees = employeeService.getAllEmployees();
-        return ResponseEntity.ok(employees);
-    }
+    public ResponseEntity<List<EmployeeResponse>> getEmployees(@RequestParam(required = false,defaultValue = "1") Integer page,
+                                                               @RequestParam(required = false,defaultValue = "5") Integer size,
+                                                               @RequestParam(required = false,defaultValue = "DESC")String sortDir,
+                                                               @RequestParam(required = false,defaultValue = "name")String sortBy){
+            Sort sort = null;
+            if (sortDir.equalsIgnoreCase("ASC")) {sort = Sort.by(sortBy).ascending();}
+            else{sort = Sort.by(sortBy).descending();}
+            List<EmployeeResponse> employees = employeeService.getAllEmployees(PageRequest.of(page - 1, size,sort));
+            return ResponseEntity.ok(employees);
 
+        }
 
     @GetMapping("{id}")
     public ResponseEntity<EmployeeResponse> getEmployId(@PathVariable Integer id) {

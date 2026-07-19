@@ -2,6 +2,8 @@ package org.example.employeemanagementapi;
 
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class EmployeeService {
         return response;
     }
 
-    public List<EmployeeResponse> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
+    public List<EmployeeResponse> getAllEmployees(Pageable pageable) {
+        List<Employee> employees = employeeRepository.findAll(pageable).getContent();
         List<EmployeeResponse> responses = new ArrayList<>();
         for (Employee employee : employees) {
             responses.add(convertToResponse(employee));
